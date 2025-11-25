@@ -1,0 +1,15 @@
+# Passsword for generating JWT tokens
+JWT_SECRET=''
+
+# Database configuration
+DB_HOST='localhost'
+DB_USER=''
+DB_NAME='users'
+DB_USER_PASSWORD=''
+DB_PORT=3306
+
+# Server configuration
+SERVER_PORT=3000
+
+# Node environment
+NODE_ENV='development'
