@@ -2,6 +2,7 @@ import express from 'express'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import connection from './db.js'
+import cookieParser from 'cookie-parser'
 
 const secretKey = process.env.JWT_SECRET || 'secretkey'
 
@@ -9,15 +10,16 @@ const app = express()
 const port = 3000
 
 app.use(express.json())
+app.use(cookieParser())
 
 const verifyToken = async (req, res, next) => {
     try {
         // Extracció del token des de l'encapçalament Authorization
-        const header = req.header("Authorization")
-        const token = header.split(" ")[1]
+        // const header = req.header("Authorization")
+        // const token = header.split(" ")[1]
 
         // Extracció del token des de la cookie
-        // const token = req.cookies['auth_token']
+        const token = req.cookies['auth_token']
         if (!token) {
             return res.status(401).json({ message: "Token not provied" })
         } else {
@@ -95,14 +97,14 @@ app.post("/login", async (req, res) => {
                     "role": results[0].role
                 }
                 const token = jwt.sign(payload, secretKey, { expiresIn: "5m" }); // https://github.com/vercel/ms
-                // res.cookie('auth_token', token, {
-                //     httpOnly: true,  // Evita l'accés via JavaScript
-                //     secure: process.env.NODE_ENV === 'production', // Activa en entorns segurs (https)
-                //     sameSite: 'Strict', // Protegeix contra CSRF
-                //     maxAge: 5 * 60 * 1000 // Expiració de 5 minuts
-                // });
+                res.cookie('auth_token', token, {
+                    httpOnly: true,  // Evita l'accés via JavaScript
+                    secure: process.env.NODE_ENV === 'production', // Activa en entorns segurs (https)
+                    sameSite: 'Strict', // Protegeix contra CSRF
+                    maxAge: 5 * 60 * 1000 // Expiració de 5 minuts
+                });
 
-                return res.status(200).json({ message: "Authentication successful", token: token });
+                return res.status(200).json({ message: "Authentication successful"});
             } else {
                 return res.status(401).json({ message: "Authentication failed" });
             }
