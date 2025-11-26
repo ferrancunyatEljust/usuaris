@@ -1,7 +1,7 @@
-import mysql from 'mysql2/promise';
-import dotenv from 'dotenv';
+import mysql from 'mysql2/promise'
+import dotenv from 'dotenv'
 
-dotenv.config();
+dotenv.config()
 
 
 const connection = await mysql.createConnection({
@@ -10,6 +10,6 @@ const connection = await mysql.createConnection({
     database: process.env.DB_NAME || 'users',
     password: process.env.DB_USER_PASSWORD || 'root',
     port: process.env.DB_PORT || 3306
-});
+})
 
 export default connection

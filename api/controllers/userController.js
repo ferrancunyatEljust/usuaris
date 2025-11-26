@@ -1,8 +1,11 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { getAllUsers, createUser, findUserByName } from '../models/userModel.js'
+import dotenv from 'dotenv'
 
-const secretKey = process.env.JWT_SECRET || 'secretkey'
+dotenv.config()
+
+const secretKey = process.env.JWT_SECRET
 
 export async function getUsers(req, res, next) {
     try {

@@ -1,6 +1,9 @@
 import jwt from 'jsonwebtoken'
+import dotenv from 'dotenv'
 
-const secretKey = process.env.JWT_SECRET || 'secretkey'
+dotenv.config()
+
+const secretKey = process.env.JWT_SECRET
 
 export const verifyToken = (req, res, next) => {
     try {
